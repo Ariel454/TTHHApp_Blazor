@@ -1,47 +1,59 @@
 ﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
 @using System.Net.Http
-@inject HttpClient HttpClient
-@inject IJSRuntime JSRuntime
 
 
-<h3>Login</h3>
+
+
+<h1>Login</h1>
 
 @if (!string.IsNullOrEmpty(ErrorMessage))
 {
     <p>@ErrorMessage</p>
+    <p>@Exito</p>
 }
 
+@if (!string.IsNullOrEmpty(ApiResponse))
+{
+        <p>Respuesta de la API: @ApiResponse</p>
+}
+
+
 <div>
-    <label for="username">Username:</label>
-    <input id="username" @bind="Username" />
+    <p>Usuario: <input type="text" @bind="@Username" /></p>
 </div>
 
 <div>
-    <label for="password">Password:</label>
-    <input id="password" type="password" @bind="Password" />
+    <p>Contraseña: <input type="password" @bind="@Password" /></p>
 </div>
 
-<button @onclick="login">Login</button>
+<button class="btn btn-primary" @onclick="IniciarSesion">Iniciar sesión</button>
 
 @code {
     private string Username { get; set; }
     private string Password { get; set; }
     private string ErrorMessage { get; set; }
+    private string Exito { get; set; }
+    private string ApiResponse { get; set; }
 
-    private async Task login()
+    private HttpClient HttpClient { get; set; }
+
+    private async void IniciarSesion()
     {
         try
         {
             using (var client = new HttpClient())
             {
-                //var url = $"https://api.openweathermap.org/data/2.5/weather?lat=" + latitud + "&lon=" + longitud + "&appid=4352cdef1d188e5e96d91520d71f345c";
-                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
+                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Usuarios?usuario=" + Username + "&password=" + Password;
+                //var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
                 var response = await client.GetAsync(url);
 
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await JSRuntime.InvokeVoidAsync("alert", "¡Funcionaa! Razón: ");
+                    //await MessageBox.Show("Este es un mensaje de ejemplo");
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
 
                 }
 
@@ -56,9 +68,8 @@
         {
             ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
             Console.WriteLine(ex.ToString());
-            await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
+            //await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
         }
     }
-    
 }
 

@@ -1,0 +1,64 @@
+﻿@page "/login"
+@using System.Net.Http
+@inject HttpClient HttpClient
+@inject IJSRuntime JSRuntime
+
+
+<h3>Login</h3>
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <p>@ErrorMessage</p>
+}
+
+<div>
+    <label for="username">Username:</label>
+    <input id="username" @bind="Username" />
+</div>
+
+<div>
+    <label for="password">Password:</label>
+    <input id="password" type="password" @bind="Password" />
+</div>
+
+<button @onclick="login">Login</button>
+
+@code {
+    private string Username { get; set; }
+    private string Password { get; set; }
+    private string ErrorMessage { get; set; }
+
+    private async Task login()
+    {
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                //var url = $"https://api.openweathermap.org/data/2.5/weather?lat=" + latitud + "&lon=" + longitud + "&appid=4352cdef1d188e5e96d91520d71f345c";
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
+                var response = await client.GetAsync(url);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "¡Funcionaa! Razón: ");
+
+                }
+
+                else
+                {
+                    // Manejar la respuesta de error de la API según sea necesario
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+            await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
+        }
+    }
+    
+}
+

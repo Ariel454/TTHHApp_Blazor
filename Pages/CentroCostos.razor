@@ -18,6 +18,7 @@
 @if (!string.IsNullOrEmpty(ApiResponse))
 {
     <p>Respuesta de la API: @ApiResponse</p>
+    <p></p>
 }
 
 <button class="btn btn-primary" @onclick="Mostrar">Mostrar centros de costo</button>
@@ -31,7 +32,9 @@
 </div>
 
 <button class="btn btn-primary" @onclick="Ingresar">Ingresar centro de costo</button>
-
+<button class="btn btn-primary" @onclick="Eliminar">Eliminar centro de costo</button>
+<button class="btn btn-primary" @onclick="Actualizar">Actualizar centro de costo</button>
+<button class="btn btn-primary" @onclick="Buscar">Buscar centro de costo</button>
 
 <!--Atributos del usuario-->
 
@@ -100,6 +103,111 @@
             {
 
                 var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosInsert?codigocentrocostos=" + cod + "&descripcioncentrocostos=" + descripcion;
+                //var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
+                var response = await client.GetAsync(url);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //await MessageBox.Show("Este es un mensaje de ejemplo");
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                }
+
+                else
+                {
+                    // Manejar la respuesta de error de la API según sea necesario
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+            //await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
+        }
+    }
+
+    private async void Eliminar()
+    {
+        try
+        {
+            using (var client = new HttpClient())
+            {
+
+                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosDelete?codigocentrocostos=" + cod + "&descripcioncentrocostos=" + descripcion;
+                //var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
+                var response = await client.GetAsync(url);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //await MessageBox.Show("Este es un mensaje de ejemplo");
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                }
+
+                else
+                {
+                    // Manejar la respuesta de error de la API según sea necesario
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+            //await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
+        }
+    }
+
+    private async void Actualizar()
+    {
+        try
+        {
+            using (var client = new HttpClient())
+            {
+
+                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosUpdate?codigocentrocostos=" + cod + "&descripcioncentrocostos=" + descripcion;
+                //var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
+                var response = await client.GetAsync(url);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //await MessageBox.Show("Este es un mensaje de ejemplo");
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                }
+
+                else
+                {
+                    // Manejar la respuesta de error de la API según sea necesario
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+            //await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
+        }
+    }
+
+    private async void Buscar()
+    {
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                
+                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosSearch?descripcioncentrocostos=" + descripcion;
                 //var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
                 var response = await client.GetAsync(url);
 

@@ -11,7 +11,7 @@ namespace TTHHApp_Blazor.Models
 
 
 
-    public class MyArray
+    public class Usuario
     {
         public string NOMBREUSUARIO { get; set; }
         public string PERFIL { get; set; }
@@ -29,7 +29,7 @@ namespace TTHHApp_Blazor.Models
 
     public class Root
     {
-        public List<MyArray> MyArray { get; set; }
+        public List<Usuario> MyArray { get; set; }
     }
 
 }

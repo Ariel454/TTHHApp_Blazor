@@ -1,7 +1,9 @@
 ﻿@page "/login"
 @using System.ComponentModel.DataAnnotations
 @using System.Net.Http
-
+@using Newtonsoft.Json;
+@using TTHHApp_Blazor.Models;
+@using System.Text.Json.Serialization;
 
 
 
@@ -29,12 +31,37 @@
 
 <button class="btn btn-primary" @onclick="IniciarSesion">Iniciar sesión</button>
 
+@if (!string.IsNullOrEmpty(NOMBREUSUARIO))
+{
+    <p>@NOMBREUSUARIO</p>
+    <p>@PERFIL</p>
+    <p>@OBSERVACION</p>
+    <p>@CODIGOPERFIL</p>
+    <p>@ESTADO</p>
+    <p>@PERFIL</p>
+}
+
+
 @code {
+    //Variables api
     private string Username { get; set; }
     private string Password { get; set; }
     private string ErrorMessage { get; set; }
     private string Exito { get; set; }
     private string ApiResponse { get; set; }
+    //Atributos de usuario
+    private string NOMBREUSUARIO { get; set; }
+    private string PERFIL { get; set; }
+    private string OBSERVACION { get; set; }
+    private int CODIGOPERFIL { get; set; }
+    private string ESTADO { get; set; }
+    private int COMPANIA { get; set; }
+    private int Emisor { get; set; }
+    private int Cargo { get; set; }
+    private string NOMBREEMISOR { get; set; }
+    private string NOMBRECOMPANIA { get; set; }
+    private string USUARIOCLIENTE { get; set; }
+    private string RucUsuario { get; set; }
 
     private HttpClient HttpClient { get; set; }
 
@@ -55,6 +82,14 @@
                     Exito = "Exitoso";
                     ApiResponse = await response.Content.ReadAsStringAsync();
 
+                    var usuarios = JsonConvert.DeserializeObject<List<Usuario>>(ApiResponse);
+
+                    if (usuarios.Count > 0)
+                    {
+                        var usuario = usuarios[0];
+                        NOMBREUSUARIO = usuario.NOMBREUSUARIO;
+                        // Resto del código para manejar el inicio de sesión exitoso
+                    }
                 }
 
                 else

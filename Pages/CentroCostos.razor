@@ -2,8 +2,9 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Net.Http
 @using Newtonsoft.Json;
-@using TTHHApp_Blazor.Models;
+@using TTHHApp_Blazor.Models
 @using System.Text.Json.Serialization;
+
 
 
 
@@ -17,9 +18,26 @@
 
 @if (!string.IsNullOrEmpty(ApiResponse))
 {
-    <p>Respuesta de la API: @ApiResponse</p>
-    <p></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Codigo</th>
+                <th>Nombre Centro de Costos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var centrocostosItem in CentroCostosView)
+            {
+                <tr>
+                    <td>@centrocostosItem.Codigo</td>
+                    <td>@centrocostosItem.NombreCentroCostos</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
+
+
 
 <button class="btn btn-primary" @onclick="Mostrar">Mostrar centros de costo</button>
 
@@ -41,47 +59,42 @@
 
 
 @code {
+    private List<CentroCosto> CentroCostosView { get; set; }
     //Variables api
     private string cod { get; set; }
     private string descripcion { get; set; }
     private string ErrorMessage { get; set; }
     private string Exito { get; set; }
     private string ApiResponse { get; set; }
+
+
     //Atributos de usuario
-    private int Codigo { get; set; }
-    private string NombreCentroCostos { get; set; }
-    private object Mensaje { get; set; }
+
+
+
 
     private async void Mostrar()
     {
+
+
         try
         {
             using (var client = new HttpClient())
             {
                 var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosSelect";
-                //var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
                 var response = await client.GetAsync(url);
-
 
                 if (response.IsSuccessStatusCode)
                 {
-                    //await MessageBox.Show("Este es un mensaje de ejemplo");
                     Exito = "Exitoso";
                     ApiResponse = await response.Content.ReadAsStringAsync();
 
-                    var centrocostos = JsonConvert.DeserializeObject<List<CentroCostos>>(ApiResponse);
+                    var centrocostos = JsonConvert.DeserializeObject<List<CentroCosto>>(ApiResponse);
+                    CentroCostosView = centrocostos;
 
-                    if (centrocostos.Count > 0)
-                    {
-                        var centroc = centrocostos[0];
-                        Codigo = centroc.Codigo;
-                        // Resto del código para manejar el inicio de sesión exitoso
-                    }
                 }
-
                 else
                 {
-                    // Manejar la respuesta de error de la API según sea necesario
                     ErrorMessage = "Error en la solicitud";
                 }
             }
@@ -90,9 +103,9 @@
         {
             ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
             Console.WriteLine(ex.ToString());
-            //await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
         }
     }
+
 
 
     private async void Ingresar()
@@ -103,7 +116,6 @@
             {
 
                 var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosInsert?codigocentrocostos=" + cod + "&descripcioncentrocostos=" + descripcion;
-                //var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
                 var response = await client.GetAsync(url);
 
 

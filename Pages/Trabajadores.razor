@@ -1,0 +1,117 @@
+﻿@page "/trabajador"
+@using System.ComponentModel.DataAnnotations
+@using System.Net.Http
+@using Newtonsoft.Json;
+@using TTHHApp_Blazor.Models
+@using System.Text.Json.Serialization;
+
+
+
+
+<h3>Trabajadores</h3>
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <p>@ErrorMessage</p>
+    <p>@Exito</p>
+}
+
+
+
+@if (!string.IsNullOrEmpty(ApiResponse))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID Trabajador</th>
+                <th>Tipo de trabajador</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Nombres</th>
+                <th>Identificación</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var trabajadorItem in TrabajadoresView)
+            {
+                <tr>
+                    <td>@trabajadorItem.Id_Trabajador</td>
+                    <td>@trabajadorItem.Tipo_trabajador</td>
+                    <td>@trabajadorItem.Apellido_Paterno</td>
+                    <td>@trabajadorItem.Apellido_Materno</td>
+                    <td>@trabajadorItem.Nombres</td>
+                    <td>@trabajadorItem.Identificacion</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+<button class="btn btn-primary" @onclick="Mostrar">Mostrar Trabajadores</button>
+
+<div>
+    <p>Codigo: <input type="text" @bind="@codSucursal" /></p>
+</div>
+
+
+
+
+
+
+<!--Atributos del usuario-->
+@code {
+    private List<Trabajador> TrabajadoresView { get; set; }
+    //Variables api
+    private string codSucursal { get; set; }
+    private string descripcion { get; set; }
+    private string ErrorMessage { get; set; }
+    private string Exito { get; set; }
+    private string ApiResponse { get; set; }
+
+
+    //Atributos de usuario
+
+
+
+
+    private async void Mostrar()
+    {
+
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorSelect?sucursal="+codSucursal;
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var trabajadores = JsonConvert.DeserializeObject<List<Trabajador>>(ApiResponse);
+                    TrabajadoresView = trabajadores;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+    }
+
+
+
+
+
+}
+

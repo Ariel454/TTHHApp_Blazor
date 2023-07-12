@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace TTHHApp_Blazor.Models
 {
-
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(myJsonResponse);
-    public class CentroCostos
+    public class CentroCosto
     {
         public int Codigo { get; set; }
         public string NombreCentroCostos { get; set; }
         public object Mensaje { get; set; }
     }
-
-
 }

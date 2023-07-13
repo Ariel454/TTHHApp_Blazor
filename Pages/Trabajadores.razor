@@ -167,6 +167,10 @@
 
         <button class="btn btn-primary" @onclick="Ingresar">Ingresar trabajador</button>
 
+        <button class="btn btn-primary" @onclick="Actualizar">Actualizar trabajador</button>
+
+        <button class="btn btn-primary" @onclick="Eliminar">Eliminar trabajador</button>
+
         <div>
             <p>Codigo: <input type="text" @bind="@codSucursal" /></p>
         </div>
@@ -453,6 +457,113 @@
     }
 
 
+   private async void Actualizar()
+    {
+        try
+        {
+            using (var client = new HttpClient())
+            {
+
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorUpdate";
+                var data = new FormUrlEncodedContent(new Dictionary<string, string>
+        {
+                { "COMP_Codigo", codSucursal.ToString() },
+                { "Id_Trabajador", IDTrabajadorV.ToString() },
+                { "Tipo_trabajador", TipodetrabajadorV },
+                { "Apellido_Paterno", ApellidoPaternoV },
+                { "Apellido_Materno", ApellidoMaternoV },
+                { "Nombres", NombresV },
+                { "Identificacion", IdentificaciónV },
+                { "Entidad_Bancaria", EntidadBancariaV },
+                { "CarnetIESS", CarnetIESSV },
+                { "Direccion", DirecciónV },
+                { "Telefono_Fijo", TelefonoFijoV },
+                { "Telefono_Movil", TelefonoMovilV },
+                { "Genero", GeneroV },
+                { "Nro_Cuenta_Bancaria", NroCuentaBancariaV },
+                { "Codigo_Categoria_Ocupacion", CodigoCategoriaOcupacionalV },
+                { "Ocupacion", OcupacionV },
+                { "Centro_Costos", CentroCostosV },
+                { "Nivel_Salarial", NivelSalarialV },
+                { "EstadoTrabajador", EstadoTrabajadorV },
+                { "Tipo_Contrato", TipoContratoV },
+                { "Tipo_Cese", TipoCeseV },
+                { "EstadoCivil", EstadoCivilV },
+                { "TipodeComision", TipodeComisionV },
+                { "FechaNacimiento", FechadeNacimientoV },
+                { "FechaIngreso", FechadeIngresoV },
+                { "FechaCese", FechaCeseV },
+                { "PeriododeVacaciones", PeriododeVacacionesV.ToString() },
+                { "FechaReingreso", FechaReingresoV },
+                { "Fecha_Ult_Actualizacion", FechaUltimaActualizaciónV },
+                { "EsReingreso", EsReingresoV },
+                { "Tipo_Cuenta", TipodeCuentaV },
+                { "FormaCalculo13ro", FormaCalculo13roV },
+                { "FormaCalculo14ro", FormaCalculo14roV },
+                { "BoniComplementaria", BonificacionComplementariaV.ToString() },
+                { "BoniEspecial", BonificacionEspecialV.ToString() },
+                { "Remuneracion_Minima", RemuneracionMinimaV.ToString() },
+                { "Fondo_Reserva", FondoReservaV },
+                { "Mensaje", MensajeV }
+            });
+                var response = await client.PostAsync(url, data);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //await MessageBox.Show("Este es un mensaje de ejemplo");
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                }
+
+                else
+                {
+                    // Manejar la respuesta de error de la API según sea necesario
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+            //await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
+        }
+    }
+
+    private async void Eliminar()
+    {
+        try
+        {
+            using (var client = new HttpClient())
+            {
+
+                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorDelete?sucursal="+codSucursal+"&codigoempleado="+IDTrabajadorV;
+                var response = await client.GetAsync(url);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //await MessageBox.Show("Este es un mensaje de ejemplo");
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                }
+
+                else
+                {
+                    // Manejar la respuesta de error de la API según sea necesario
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+            //await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
+        }
+    }
 
 }
 

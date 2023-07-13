@@ -29,6 +29,37 @@
                 <th>Apellido Materno</th>
                 <th>Nombres</th>
                 <th>Identificación</th>
+                <th>Entidad Bancaria</th>
+                <th>Carnet IESS</th>
+                <th>Dirección</th>
+                <th>Teléfono Fijo</th>
+                <th>Teléfono Móvil</th>
+                <th>Genero</th>
+                <th>Nro Cuenta Bancaria</th>
+                <th>Codigo Categoria Ocupacional</th>
+                <th>Ocupacion</th>
+                <th>Centro Costos</th>
+                <th>Nivel Salarial</th>
+                <th>Estado Trabajador</th>
+                <th>Tipo Contrato</th>
+                <th>Tipo Cese</th>
+                <th>Estado Civil</th>
+                <th>Tipo de Comision</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Fecha de Ingreso</th>
+                <th>Fecha Cese</th>
+                <th>Periodo de Vacaciones</th>
+                <th>Fecha Reingreso</th>
+                <th>Fecha Ultima Actualización</th>
+                <th>Es Reingreso</th>
+                <th>Tipo de Cuenta</th>
+                <th>Forma Calculo 13ro</th>
+                <th>Forma Calculo 14ro</th>
+                <th>Bonificación Complementaria</th>
+                <th>Bonificación Especial</th>
+                <th>Remuneración Mínima</th>
+                <th>Fondo Reserva</th>
+
             </tr>
         </thead>
         <tbody>
@@ -41,6 +72,36 @@
                     <td>@trabajadorItem.Apellido_Materno</td>
                     <td>@trabajadorItem.Nombres</td>
                     <td>@trabajadorItem.Identificacion</td>
+                    <td>@trabajadorItem.Entidad_Bancaria</td>
+                    <td>@trabajadorItem.CarnetIESS</td>
+                    <td>@trabajadorItem.Direccion</td>
+                    <td>@trabajadorItem.Telefono_Fijo</td>
+                    <td>@trabajadorItem.Telefono_Movil</td>
+                    <td>@trabajadorItem.Genero</td>
+                    <td>@trabajadorItem.Nro_Cuenta_Bancaria</td>
+                    <td>@trabajadorItem.Codigo_Categoria_Ocupacion</td>
+                    <td>@trabajadorItem.Ocupacion</td>
+                    <td>@trabajadorItem.Centro_Costos</td>
+                    <td>@trabajadorItem.Nivel_Salarial</td>
+                    <td>@trabajadorItem.EstadoTrabajador</td>
+                    <td>@trabajadorItem.Tipo_Contrato</td>
+                    <td>@trabajadorItem.Tipo_Cese</td>
+                    <td>@trabajadorItem.EstadoCivil</td>
+                    <td>@trabajadorItem.TipodeComision</td>
+                    <td>@trabajadorItem.FechaNacimiento</td>
+                    <td>@trabajadorItem.FechaIngreso</td>
+                    <td>@trabajadorItem.FechaCese</td>
+                    <td>@trabajadorItem.PeriododeVacaciones</td>
+                    <td>@trabajadorItem.FechaReingreso</td>
+                    <td>@trabajadorItem.Fecha_Ult_Actualizacion</td>
+                    <td>@trabajadorItem.EsReingreso</td>
+                    <td>@trabajadorItem.Tipo_Cuenta</td>
+                    <td>@trabajadorItem.FormaCalculo13ro</td>
+                    <td>@trabajadorItem.FormaCalculo14ro</td>
+                    <td>@trabajadorItem.BoniComplementaria</td>
+                    <td>@trabajadorItem.BoniEspecial</td>
+                    <td>@trabajadorItem.Remuneracion_Minima</td>
+                    <td>@trabajadorItem.Fondo_Reserva</td>
                 </tr>
             }
         </tbody>
@@ -48,8 +109,19 @@
 }
 
 
+<div>
+    <p>Codigo Compañia: <input type="text" @bind="@codSucursal" /></p>
+</div>
+
+<div>
+    <p>Descripcion: <input type="text" @bind="@descripcion" /></p>
+</div>
+
+
 
 <button class="btn btn-primary" @onclick="Mostrar">Mostrar Trabajadores</button>
+
+@*<button class="btn btn-primary" @onclick="Ingresar">Ingresar centro de costo</button>*@
 
 <div>
     <p>Codigo: <input type="text" @bind="@codSucursal" /></p>
@@ -62,7 +134,7 @@
 
 <!--Atributos del usuario-->
 @code {
-    private List<Trabajador> TrabajadoresView { get; set; }
+    private List<TrabajadorProxy> TrabajadoresView { get; set; }
     //Variables api
     private string codSucursal { get; set; }
     private string descripcion { get; set; }
@@ -71,8 +143,44 @@
     private string ApiResponse { get; set; }
 
 
-    //Atributos de usuario
-
+    //Atributos de trabajador
+    private string IDTrabajadorV { get; set; }
+    private string TipodetrabajadorV { get; set; }
+    private string ApellidoPaternoV { get; set; }
+    private string ApellidoMaternoV { get; set; }
+    private string NombresV { get; set; }
+    private string IdentificaciónV { get; set; }
+    private string EntidadBancariaV { get; set; }
+    private string CarnetIESSV { get; set; }
+    private string DirecciónV { get; set; }
+    private string TelefonoFijoV { get; set; }
+    private string TelefonoMovilV { get; set; }
+    private string GeneroV { get; set; }
+    private string NroCuentaBancariaV { get; set; }
+    private string CodigoCategoriaOcupacionalV { get; set; }
+    private string OcupacionV { get; set; } 
+    private string CentroCostosV { get; set; }
+    private string NivelSalarialV { get; set; }
+    private string EstadoTrabajadorV { get; set; }
+    private string TipoContratoV { get; set; }
+    private string TipoCeseV { get; set; }
+    private string EstadoCivilV { get; set; }
+    private string TipodeComisionV { get; set; }
+    private string FechadeNacimientoV { get; set; }
+    private string FechadeIngresoV { get; set; }
+    private string FechaCeseV { get; set; }
+    private string PeriododeVacacionesV { get; set; }
+    private string FechaReingresoV { get; set; }
+    private string FechaUltimaActualizaciónV { get; set; }
+    private string EsReingresoV { get; set; }
+    private string TipodeCuentaV { get; set; }
+    private string FormaCalculo13roV { get; set; }
+    private string FormaCalculo14roV { get; set; }
+    private string BonificaciónComplementariaV { get; set; }
+    private string BonificaciónEspecialV { get; set; }
+    private string RemuneraciónMínimaV { get; set; }
+    private string FondoReservaV { get; set; }
+    private string MensajeV { get; set; }
 
 
 
@@ -92,7 +200,12 @@
                     Exito = "Exitoso";
                     ApiResponse = await response.Content.ReadAsStringAsync();
 
-                    var trabajadores = JsonConvert.DeserializeObject<List<Trabajador>>(ApiResponse);
+                    var trabajadores = JsonConvert.DeserializeObject<List<TrabajadorProxy>>(ApiResponse);
+                    foreach (var trabajadoresVar in trabajadores)
+                    {
+                        trabajadoresVar.FormaCalculo13ro = trabajadoresVar.ObtenerCalculoDecimo13();
+                        trabajadoresVar.FormaCalculo14ro = trabajadoresVar.ObtenerCalculoDecimo14();
+                    }
                     TrabajadoresView = trabajadores;
 
                 }
@@ -109,7 +222,46 @@
         }
     }
 
+    private async void Ingresar()
+    {
+        try
+        {
+            using (var client = new HttpClient())
+            {
 
+                //var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosInsert?codigocentrocostos=" + cod + "&descripcioncentrocostos=" + descripcion;
+                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorInsert?COMP_Codigo="+codSucursal+"&Tipo_trabajador="+TipodetrabajadorV+"&Apellido_Paterno="+ApellidoPaternoV+
+                "&Apellido_Materno="+ApellidoMaternoV+"&Nombres="+NombresV+"&Identificacion="+IdentificaciónV+"&Entidad_Bancaria="+EntidadBancariaV+"&CarnetIESS="+CarnetIESSV+"&Direccion="+DirecciónV+
+                "&Telefono_Fijo="+TelefonoFijoV+"&Telefono_Movil="+TelefonoMovilV+"&Genero="+GeneroV+"&Nro_Cuenta_Bancaria="+NroCuentaBancariaV+"&Codigo_Categoria_Ocupacion="+CodigoCategoriaOcupacionalV+
+                "&Ocupacion="+OcupacionV+"&Centro_Costos="+CentroCostosV+"&Nivel_Salarial="+NivelSalarialV+"&EstadoTrabajador="+EstadoTrabajadorV+"&Tipo_Contrato="+TipoContratoV+"&Tipo_Cese="+TipoCeseV+
+                "&EstadoCivil="+EstadoCivilV+"&TipodeComision="+TipodeComisionV+"&FechaNacimiento="+FechadeNacimientoV+"&FechaIngreso="+FechadeIngresoV+"&FechaCese="+FechaCeseV+"&PeriododeVacaciones="+PeriododeVacacionesV+
+                "&FechaReingreso="+FechaReingresoV+"&Fecha_Ult_Actualizacion="+FechaUltimaActualizaciónV+"&EsReingreso="+EsReingresoV+"&Tipo_Cuenta="+TipodeCuentaV+"&FormaCalculo13ro="+FormaCalculo13roV+"&FormaCalculo14ro="+FormaCalculo14roV+
+                "&BoniComplementaria="+BonificaciónComplementariaV+"&BoniEspecial="+BonificaciónEspecialV+"&Remuneracion_Minima="+RemuneraciónMínimaV+"&Fondo_Reserva="+FondoReservaV+"&Mensaje="+MensajeV;
+                var response = await client.GetAsync(url);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //await MessageBox.Show("Este es un mensaje de ejemplo");
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                }
+
+                else
+                {
+                    // Manejar la respuesta de error de la API según sea necesario
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+            //await JSRuntime.InvokeVoidAsync("alert", "¡Fallo al iniciar sesión! Razón: " + ex.Message);
+        }
+    }
 
 
 

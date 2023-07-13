@@ -80,5 +80,60 @@ namespace TTHHApp_Blazor.Models
             return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
         }
 
+        public string ObtenerCategoriaOcupacional()
+        {
+            if (Codigo_Categoria_Ocupacion == "1")
+            {
+                return "TRABAJADOR";
+            }
+            else if (Codigo_Categoria_Ocupacion == "2")
+            {
+                return "EMPLEADOR";
+            }
+            else if (Codigo_Categoria_Ocupacion == "3")
+            {
+                return "SERVICIOS PROFESIONALES";
+            }
+            else if (Codigo_Categoria_Ocupacion == "4")
+            {
+                return "PERSONAL RELIGIOSO";
+            }
+            else if (Codigo_Categoria_Ocupacion == "5")
+            {
+                return "AUTORIDADES Y DIRECTIVOS";
+            }
+            else if (Codigo_Categoria_Ocupacion == "6")
+            {
+                return "PROFESORES";
+            }
+            else if (Codigo_Categoria_Ocupacion == "7")
+            {
+                return "PERSONAL DE APOYO O AUXILIAR";
+            }
+            else if (Codigo_Categoria_Ocupacion == "8")
+            {
+                return "PERSONAL DE SERVICIO";
+            }
+            else if (Codigo_Categoria_Ocupacion == "9")
+            {
+                return "PERSONAL DE CONTABILIDAD";
+            }
+            else if (Codigo_Categoria_Ocupacion == "10")
+            {
+                return "PERSONAL DE MANTENIMIENTO";
+            }
+            else if (Codigo_Categoria_Ocupacion == "11")
+            {
+                return "PERSONAL DE SECRETARIA";
+            }
+            else if (Codigo_Categoria_Ocupacion == "12")
+            {
+                return "PERSONAL DE CONSEJERIA";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+
     }
 }

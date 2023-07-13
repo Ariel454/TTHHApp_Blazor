@@ -342,6 +342,8 @@
     private string FondoReservaV { get; set; }
     private string MensajeV { get; set; }
 
+    private static readonly HttpClient client = HttpClientSingleton.GetInstance();
+
 
 
     private async void Mostrar()
@@ -350,8 +352,7 @@
 
         try
         {
-            using (var client = new HttpClient())
-            {
+
                 var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorSelect?sucursal="+codSucursal;
                 var response = await client.GetAsync(url);
 
@@ -363,6 +364,7 @@
                     var trabajadores = JsonConvert.DeserializeObject<List<TrabajadorProxy>>(ApiResponse);
                     foreach (var trabajadoresVar in trabajadores)
                     {
+                        trabajadoresVar.Codigo_Categoria_Ocupacion = trabajadoresVar.ObtenerCategoriaOcupacional();
                         trabajadoresVar.FormaCalculo13ro = trabajadoresVar.ObtenerCalculoDecimo13();
                         trabajadoresVar.FormaCalculo14ro = trabajadoresVar.ObtenerCalculoDecimo14();
                     }
@@ -373,7 +375,7 @@
                 {
                     ErrorMessage = "Error en la solicitud";
                 }
-            }
+            
         }
         catch (HttpRequestException ex)
         {

@@ -115,9 +115,13 @@
             using (var client = new HttpClient())
             {
 
-                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosInsert?codigocentrocostos=" + cod + "&descripcioncentrocostos=" + descripcion;
-                var response = await client.GetAsync(url);
-
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosInsert";
+                var data = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    { "codigocentrocostos", cod },
+                    { "descripcioncentrocostos", descripcion }
+                });
+                var response = await client.PostAsync(url, data);
 
                 if (response.IsSuccessStatusCode)
                 {

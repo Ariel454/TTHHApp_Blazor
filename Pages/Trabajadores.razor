@@ -165,7 +165,7 @@
 
         <button class="btn btn-primary" @onclick="Mostrar">Mostrar Trabajadores</button>
 
-        @*<button class="btn btn-primary" @onclick="Ingresar">Ingresar centro de costo</button>*@
+        <button class="btn btn-primary" @onclick="Ingresar">Ingresar trabajador</button>
 
         <div>
             <p>Codigo: <input type="text" @bind="@codSucursal" /></p>
@@ -292,7 +292,7 @@
 @code {
     private List<TrabajadorProxy> TrabajadoresView { get; set; }
     //Variables api
-    private string codSucursal { get; set; }
+    private int codSucursal { get; set; }
     private string descripcion { get; set; }
     private string ErrorMessage { get; set; }
     private string Exito { get; set; }
@@ -300,7 +300,7 @@
 
 
     //Atributos de trabajador
-    private string IDTrabajadorV { get; set; }
+    private int IDTrabajadorV { get; set; }
     private string TipodetrabajadorV { get; set; }
     private string ApellidoPaternoV { get; set; }
     private string ApellidoMaternoV { get; set; }
@@ -325,16 +325,16 @@
     private string FechadeNacimientoV { get; set; }
     private string FechadeIngresoV { get; set; }
     private string FechaCeseV { get; set; }
-    private string PeriododeVacacionesV { get; set; }
+    private int PeriododeVacacionesV { get; set; }
     private string FechaReingresoV { get; set; }
     private string FechaUltimaActualizaciónV { get; set; }
     private string EsReingresoV { get; set; }
     private string TipodeCuentaV { get; set; }
     private string FormaCalculo13roV { get; set; }
     private string FormaCalculo14roV { get; set; }
-    private string BonificacionComplementariaV { get; set; }
-    private string BonificacionEspecialV { get; set; }
-    private string RemuneracionMinimaV { get; set; }
+    private int BonificacionComplementariaV { get; set; }
+    private int BonificacionEspecialV { get; set; }
+    private int RemuneracionMinimaV { get; set; }
     private string FondoReservaV { get; set; }
     private string MensajeV { get; set; }
 
@@ -385,15 +385,48 @@
             using (var client = new HttpClient())
             {
 
-                //var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosInsert?codigocentrocostos=" + cod + "&descripcioncentrocostos=" + descripcion;
-                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorInsert?COMP_Codigo="+codSucursal+"&Tipo_trabajador="+TipodetrabajadorV+"&Apellido_Paterno="+ApellidoPaternoV+
-                "&Apellido_Materno="+ApellidoMaternoV+"&Nombres="+NombresV+"&Identificacion="+IdentificaciónV+"&Entidad_Bancaria="+EntidadBancariaV+"&CarnetIESS="+CarnetIESSV+"&Direccion="+DirecciónV+
-                "&Telefono_Fijo="+TelefonoFijoV+"&Telefono_Movil="+TelefonoMovilV+"&Genero="+GeneroV+"&Nro_Cuenta_Bancaria="+NroCuentaBancariaV+"&Codigo_Categoria_Ocupacion="+CodigoCategoriaOcupacionalV+
-                "&Ocupacion="+OcupacionV+"&Centro_Costos="+CentroCostosV+"&Nivel_Salarial="+NivelSalarialV+"&EstadoTrabajador="+EstadoTrabajadorV+"&Tipo_Contrato="+TipoContratoV+"&Tipo_Cese="+TipoCeseV+
-                "&EstadoCivil="+EstadoCivilV+"&TipodeComision="+TipodeComisionV+"&FechaNacimiento="+FechadeNacimientoV+"&FechaIngreso="+FechadeIngresoV+"&FechaCese="+FechaCeseV+"&PeriododeVacaciones="+PeriododeVacacionesV+
-                "&FechaReingreso="+FechaReingresoV+"&Fecha_Ult_Actualizacion="+FechaUltimaActualizaciónV+"&EsReingreso="+EsReingresoV+"&Tipo_Cuenta="+TipodeCuentaV+"&FormaCalculo13ro="+FormaCalculo13roV+"&FormaCalculo14ro="+FormaCalculo14roV+
-                "&BoniComplementaria="+BonificacionComplementariaV+"&BoniEspecial="+BonificacionEspecialV+"&Remuneracion_Minima="+RemuneracionMinimaV+"&Fondo_Reserva="+FondoReservaV+"&Mensaje="+MensajeV;
-                var response = await client.GetAsync(url);
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorInsert";
+                var data = new FormUrlEncodedContent(new Dictionary<string, string>
+{
+                { "COMP_Codigo", codSucursal.ToString() },
+                { "Tipo_trabajador", TipodetrabajadorV },
+                { "Apellido_Paterno", ApellidoPaternoV },
+                { "Apellido_Materno", ApellidoMaternoV },
+                { "Nombres", NombresV },
+                { "Identificacion", IdentificaciónV },
+                { "Entidad_Bancaria", EntidadBancariaV },
+                { "CarnetIESS", CarnetIESSV },
+                { "Direccion", DirecciónV },
+                { "Telefono_Fijo", TelefonoFijoV },
+                { "Telefono_Movil", TelefonoMovilV },
+                { "Genero", GeneroV },
+                { "Nro_Cuenta_Bancaria", NroCuentaBancariaV },
+                { "Codigo_Categoria_Ocupacion", CodigoCategoriaOcupacionalV },
+                { "Ocupacion", OcupacionV },
+                { "Centro_Costos", CentroCostosV },
+                { "Nivel_Salarial", NivelSalarialV },
+                { "EstadoTrabajador", EstadoTrabajadorV },
+                { "Tipo_Contrato", TipoContratoV },
+                { "Tipo_Cese", TipoCeseV },
+                { "EstadoCivil", EstadoCivilV },
+                { "TipodeComision", TipodeComisionV },
+                { "FechaNacimiento", FechadeNacimientoV },
+                { "FechaIngreso", FechadeIngresoV },
+                { "FechaCese", FechaCeseV },
+                { "PeriododeVacaciones", PeriododeVacacionesV.ToString() },
+                { "FechaReingreso", FechaReingresoV },
+                { "Fecha_Ult_Actualizacion", FechaUltimaActualizaciónV },
+                { "EsReingreso", EsReingresoV },
+                { "Tipo_Cuenta", TipodeCuentaV },
+                { "FormaCalculo13ro", FormaCalculo13roV },
+                { "FormaCalculo14ro", FormaCalculo14roV },
+                { "BoniComplementaria", BonificacionComplementariaV.ToString() },
+                { "BoniEspecial", BonificacionEspecialV.ToString() },
+                { "Remuneracion_Minima", RemuneracionMinimaV.ToString() },
+                { "Fondo_Reserva", FondoReservaV },
+                { "Mensaje", MensajeV }
+            });
+                var response = await client.PostAsync(url, data);
 
 
                 if (response.IsSuccessStatusCode)

@@ -10,6 +10,267 @@
 
 <h3>Trabajadores</h3>
 
+<div style="display: grid; grid-template-columns: 1fr 1fr;">
+    <div style="padding: 10px;">
+        <!-- Campos de entrada y botones -->
+        <h4>Campos de entrada</h4>
+
+        <div>
+            <p>Codigo Compañia: <input type="text" @bind="@codSucursal" /></p>
+        </div>
+
+        <div>
+            <p>ID Trabajador: <input type="text" @bind="@IDTrabajadorV" /></p>
+        </div>
+
+        <div>
+            <p>Tipo de trabajador: <input type="text" @bind="@TipodetrabajadorV" /></p>
+        </div>
+
+        <div>
+            <p>Apellido Paterno: <input type="text" @bind="@ApellidoPaternoV" /></p>
+        </div>
+
+        <div>
+            <p>Apellido Materno: <input type="text" @bind="@ApellidoMaternoV" /></p>
+        </div>
+
+        <div>
+            <p>Nombres: <input type="text" @bind="@NombresV" /></p>
+        </div>
+
+        <div>
+            <p>Identificación: <input type="text" @bind="@IdentificaciónV" /></p>
+        </div>
+
+        <div>
+            <p>Entidad Bancaria: <input type="text" @bind="@EntidadBancariaV" /></p>
+        </div>
+
+        <div>
+            <p>Carnet IESS: <input type="text" @bind="@CarnetIESSV" /></p>
+        </div>
+
+        <div>
+            <p>Dirección: <input type="text" @bind="@DirecciónV" /></p>
+        </div>
+
+        <div>
+            <p>Teléfono Fijo: <input type="text" @bind="@TelefonoFijoV" /></p>
+        </div>
+
+        <div>
+            <p>Teléfono Móvil: <input type="text" @bind="@TelefonoMovilV" /></p>
+        </div>
+
+        <div>
+            <p>Genero: <input type="text" @bind="@GeneroV" /></p>
+        </div>
+
+        <div>
+            <p>Nro de Cuenta Bancaria: <input type="text" @bind="@NroCuentaBancariaV" /></p>
+        </div>
+
+        <div>
+            <p>Codigo Categoria Ocupacional: <input type="text" @bind="@CodigoCategoriaOcupacionalV" /></p>
+        </div>
+
+        <div>
+            <p>Ocupación: <input type="text" @bind="@OcupacionV" /></p>
+        </div>
+
+        <div>
+            <p>Centro Costos: <input type="text" @bind="@CentroCostosV" /></p>
+        </div>
+
+        <div>
+            <p>Nivel Salarial: <input type="text" @bind="@NivelSalarialV" /></p>
+        </div>
+
+        <div>
+            <p>Estado Trabajador: <input type="text" @bind="@EstadoTrabajadorV" /></p>
+        </div>
+
+        <div>
+            <p>Tipo de Contrato: <input type="text" @bind="@TipoContratoV" /></p>
+        </div>
+
+        <div>
+            <p>Tipo de Cese: <input type="text" @bind="@TipoCeseV" /></p>
+        </div>
+
+        <div>
+            <p>Estado Civil: <input type="text" @bind="@EstadoCivilV" /></p>
+        </div>
+
+        <div>
+            <p>Tipo de comisión: <input type="text" @bind="@TipodeComisionV" /></p>
+        </div>
+
+        <div>
+            <p>Fecha de Nacimiento: <input type="text" @bind="@FechadeNacimientoV" /></p>
+        </div>
+
+        <div>
+            <p>Fecha de Ingreso: <input type="text" @bind="@FechadeIngresoV" /></p>
+        </div>
+
+        <div>
+            <p>Fecha de Cese: <input type="text" @bind="@FechaCeseV" /></p>
+        </div>
+
+        <div>
+            <p>Periodo de Vacaciones: <input type="text" @bind="@PeriododeVacacionesV" /></p>
+        </div>
+
+        <div>
+            <p>Fecha de Reingreso: <input type="datetime" @bind="@FechaReingresoV" /></p>
+        </div>
+
+        <div>
+            <p>Fecha de última actualización: <input type="datetime" @bind="@FechaUltimaActualizaciónV" /></p>
+        </div>
+
+        <div>
+            <p>Reingreso: <input type="text" @bind="@EsReingresoV" /></p>
+        </div>
+
+        <div>
+            <p>Tipo de Cuenta: <input type="text" @bind="@TipodeCuentaV" /></p>
+        </div>
+
+        <div>
+            <p>Forma Calculo 13ro: <input type="text" @bind="@FormaCalculo13roV" /></p>
+        </div>
+
+        <div>
+            <p>Forma Calculo 14ro: <input type="text" @bind="@FormaCalculo14roV" /></p>
+        </div>
+
+        <div>
+            <p>Bonificación complementaria: <input type="text" @bind="@BonificacionComplementariaV" /></p>
+        </div>
+
+        <div>
+            <p>Bonificación Especial: <input type="text" @bind="@BonificacionEspecialV" /></p>
+        </div>
+
+        <div>
+            <p>Remuneración Mínima: <input type="text" @bind="@RemuneracionMinimaV" /></p>
+        </div>
+
+        <div>
+            <p>Fondo de Reserva: <input type="text" @bind="@FondoReservaV" /></p>
+        </div>
+
+        <button class="btn btn-primary" @onclick="Mostrar">Mostrar Trabajadores</button>
+
+        @*<button class="btn btn-primary" @onclick="Ingresar">Ingresar centro de costo</button>*@
+
+        <div>
+            <p>Codigo: <input type="text" @bind="@codSucursal" /></p>
+        </div>
+
+        <!-- Otros botones... -->
+    </div>
+
+    <div style="padding: 10px;">
+        <!-- Tabla con la información -->
+        <h4>Información de los trabajadores</h4>
+
+        @if (!string.IsNullOrEmpty(ApiResponse))
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID Trabajador</th>
+                        <th>Tipo de trabajador</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Nombres</th>
+                        <th>Identificación</th>
+                        <th>Entidad Bancaria</th>
+                        <th>Carnet IESS</th>
+                        <th>Dirección</th>
+                        <th>Teléfono Fijo</th>
+                        <th>Teléfono Móvil</th>
+                        <th>Genero</th>
+                        <th>Nro Cuenta Bancaria</th>
+                        <th>Codigo Categoria Ocupacional</th>
+                        <th>Ocupacion</th>
+                        <th>Centro Costos</th>
+                        <th>Nivel Salarial</th>
+                        <th>Estado Trabajador</th>
+                        <th>Tipo Contrato</th>
+                        <th>Tipo Cese</th>
+                        <th>Estado Civil</th>
+                        <th>Tipo de Comision</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Fecha de Ingreso</th>
+                        <th>Fecha Cese</th>
+                        <th>Periodo de Vacaciones</th>
+                        <th>Fecha Reingreso</th>
+                        <th>Fecha Ultima Actualización</th>
+                        <th>Es Reingreso</th>
+                        <th>Tipo de Cuenta</th>
+                        <th>Forma Calculo 13ro</th>
+                        <th>Forma Calculo 14ro</th>
+                        <th>Bonificación Complementaria</th>
+                        <th>Bonificación Especial</th>
+                        <th>Remuneración Mínima</th>
+                        <th>Fondo Reserva</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var trabajadorItem in TrabajadoresView)
+                    {
+                        <tr>
+                            <td>@trabajadorItem.Id_Trabajador</td>
+                            <td>@trabajadorItem.Tipo_trabajador</td>
+                            <td>@trabajadorItem.Apellido_Paterno</td>
+                            <td>@trabajadorItem.Apellido_Materno</td>
+                            <td>@trabajadorItem.Nombres</td>
+                            <td>@trabajadorItem.Identificacion</td>
+                            <td>@trabajadorItem.Entidad_Bancaria</td>
+                            <td>@trabajadorItem.CarnetIESS</td>
+                            <td>@trabajadorItem.Direccion</td>
+                            <td>@trabajadorItem.Telefono_Fijo</td>
+                            <td>@trabajadorItem.Telefono_Movil</td>
+                            <td>@trabajadorItem.Genero</td>
+                            <td>@trabajadorItem.Nro_Cuenta_Bancaria</td>
+                            <td>@trabajadorItem.Codigo_Categoria_Ocupacion</td>
+                            <td>@trabajadorItem.Ocupacion</td>
+                            <td>@trabajadorItem.Centro_Costos</td>
+                            <td>@trabajadorItem.Nivel_Salarial</td>
+                            <td>@trabajadorItem.EstadoTrabajador</td>
+                            <td>@trabajadorItem.Tipo_Contrato</td>
+                            <td>@trabajadorItem.Tipo_Cese</td>
+                            <td>@trabajadorItem.EstadoCivil</td>
+                            <td>@trabajadorItem.TipodeComision</td>
+                            <td>@trabajadorItem.FechaNacimiento</td>
+                            <td>@trabajadorItem.FechaIngreso</td>
+                            <td>@trabajadorItem.FechaCese</td>
+                            <td>@trabajadorItem.PeriododeVacaciones</td>
+                            <td>@trabajadorItem.FechaReingreso</td>
+                            <td>@trabajadorItem.Fecha_Ult_Actualizacion</td>
+                            <td>@trabajadorItem.EsReingreso</td>
+                            <td>@trabajadorItem.Tipo_Cuenta</td>
+                            <td>@trabajadorItem.FormaCalculo13ro</td>
+                            <td>@trabajadorItem.FormaCalculo14ro</td>
+                            <td>@trabajadorItem.BoniComplementaria</td>
+                            <td>@trabajadorItem.BoniEspecial</td>
+                            <td>@trabajadorItem.Remuneracion_Minima</td>
+                            <td>@trabajadorItem.Fondo_Reserva</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+
 @if (!string.IsNullOrEmpty(ErrorMessage))
 {
     <p>@ErrorMessage</p>
@@ -18,114 +279,9 @@
 
 
 
-@if (!string.IsNullOrEmpty(ApiResponse))
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID Trabajador</th>
-                <th>Tipo de trabajador</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>Nombres</th>
-                <th>Identificación</th>
-                <th>Entidad Bancaria</th>
-                <th>Carnet IESS</th>
-                <th>Dirección</th>
-                <th>Teléfono Fijo</th>
-                <th>Teléfono Móvil</th>
-                <th>Genero</th>
-                <th>Nro Cuenta Bancaria</th>
-                <th>Codigo Categoria Ocupacional</th>
-                <th>Ocupacion</th>
-                <th>Centro Costos</th>
-                <th>Nivel Salarial</th>
-                <th>Estado Trabajador</th>
-                <th>Tipo Contrato</th>
-                <th>Tipo Cese</th>
-                <th>Estado Civil</th>
-                <th>Tipo de Comision</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Fecha de Ingreso</th>
-                <th>Fecha Cese</th>
-                <th>Periodo de Vacaciones</th>
-                <th>Fecha Reingreso</th>
-                <th>Fecha Ultima Actualización</th>
-                <th>Es Reingreso</th>
-                <th>Tipo de Cuenta</th>
-                <th>Forma Calculo 13ro</th>
-                <th>Forma Calculo 14ro</th>
-                <th>Bonificación Complementaria</th>
-                <th>Bonificación Especial</th>
-                <th>Remuneración Mínima</th>
-                <th>Fondo Reserva</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var trabajadorItem in TrabajadoresView)
-            {
-                <tr>
-                    <td>@trabajadorItem.Id_Trabajador</td>
-                    <td>@trabajadorItem.Tipo_trabajador</td>
-                    <td>@trabajadorItem.Apellido_Paterno</td>
-                    <td>@trabajadorItem.Apellido_Materno</td>
-                    <td>@trabajadorItem.Nombres</td>
-                    <td>@trabajadorItem.Identificacion</td>
-                    <td>@trabajadorItem.Entidad_Bancaria</td>
-                    <td>@trabajadorItem.CarnetIESS</td>
-                    <td>@trabajadorItem.Direccion</td>
-                    <td>@trabajadorItem.Telefono_Fijo</td>
-                    <td>@trabajadorItem.Telefono_Movil</td>
-                    <td>@trabajadorItem.Genero</td>
-                    <td>@trabajadorItem.Nro_Cuenta_Bancaria</td>
-                    <td>@trabajadorItem.Codigo_Categoria_Ocupacion</td>
-                    <td>@trabajadorItem.Ocupacion</td>
-                    <td>@trabajadorItem.Centro_Costos</td>
-                    <td>@trabajadorItem.Nivel_Salarial</td>
-                    <td>@trabajadorItem.EstadoTrabajador</td>
-                    <td>@trabajadorItem.Tipo_Contrato</td>
-                    <td>@trabajadorItem.Tipo_Cese</td>
-                    <td>@trabajadorItem.EstadoCivil</td>
-                    <td>@trabajadorItem.TipodeComision</td>
-                    <td>@trabajadorItem.FechaNacimiento</td>
-                    <td>@trabajadorItem.FechaIngreso</td>
-                    <td>@trabajadorItem.FechaCese</td>
-                    <td>@trabajadorItem.PeriododeVacaciones</td>
-                    <td>@trabajadorItem.FechaReingreso</td>
-                    <td>@trabajadorItem.Fecha_Ult_Actualizacion</td>
-                    <td>@trabajadorItem.EsReingreso</td>
-                    <td>@trabajadorItem.Tipo_Cuenta</td>
-                    <td>@trabajadorItem.FormaCalculo13ro</td>
-                    <td>@trabajadorItem.FormaCalculo14ro</td>
-                    <td>@trabajadorItem.BoniComplementaria</td>
-                    <td>@trabajadorItem.BoniEspecial</td>
-                    <td>@trabajadorItem.Remuneracion_Minima</td>
-                    <td>@trabajadorItem.Fondo_Reserva</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-
-<div>
-    <p>Codigo Compañia: <input type="text" @bind="@codSucursal" /></p>
-</div>
-
-<div>
-    <p>Descripcion: <input type="text" @bind="@descripcion" /></p>
-</div>
 
 
 
-<button class="btn btn-primary" @onclick="Mostrar">Mostrar Trabajadores</button>
-
-@*<button class="btn btn-primary" @onclick="Ingresar">Ingresar centro de costo</button>*@
-
-<div>
-    <p>Codigo: <input type="text" @bind="@codSucursal" /></p>
-</div>
 
 
 
@@ -176,9 +332,9 @@
     private string TipodeCuentaV { get; set; }
     private string FormaCalculo13roV { get; set; }
     private string FormaCalculo14roV { get; set; }
-    private string BonificaciónComplementariaV { get; set; }
-    private string BonificaciónEspecialV { get; set; }
-    private string RemuneraciónMínimaV { get; set; }
+    private string BonificacionComplementariaV { get; set; }
+    private string BonificacionEspecialV { get; set; }
+    private string RemuneracionMinimaV { get; set; }
     private string FondoReservaV { get; set; }
     private string MensajeV { get; set; }
 
@@ -236,7 +392,7 @@
                 "&Ocupacion="+OcupacionV+"&Centro_Costos="+CentroCostosV+"&Nivel_Salarial="+NivelSalarialV+"&EstadoTrabajador="+EstadoTrabajadorV+"&Tipo_Contrato="+TipoContratoV+"&Tipo_Cese="+TipoCeseV+
                 "&EstadoCivil="+EstadoCivilV+"&TipodeComision="+TipodeComisionV+"&FechaNacimiento="+FechadeNacimientoV+"&FechaIngreso="+FechadeIngresoV+"&FechaCese="+FechaCeseV+"&PeriododeVacaciones="+PeriododeVacacionesV+
                 "&FechaReingreso="+FechaReingresoV+"&Fecha_Ult_Actualizacion="+FechaUltimaActualizaciónV+"&EsReingreso="+EsReingresoV+"&Tipo_Cuenta="+TipodeCuentaV+"&FormaCalculo13ro="+FormaCalculo13roV+"&FormaCalculo14ro="+FormaCalculo14roV+
-                "&BoniComplementaria="+BonificaciónComplementariaV+"&BoniEspecial="+BonificaciónEspecialV+"&Remuneracion_Minima="+RemuneraciónMínimaV+"&Fondo_Reserva="+FondoReservaV+"&Mensaje="+MensajeV;
+                "&BoniComplementaria="+BonificacionComplementariaV+"&BoniEspecial="+BonificacionEspecialV+"&Remuneracion_Minima="+RemuneracionMinimaV+"&Fondo_Reserva="+FondoReservaV+"&Mensaje="+MensajeV;
                 var response = await client.GetAsync(url);
 
 

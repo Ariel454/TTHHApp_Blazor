@@ -106,6 +106,20 @@ namespace TTHHApp_Blazor.Models
             return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
         }
 
+        public string ObtenerTipoGenero()
+        {
+            if (Genero == "F")
+            {
+                return "Femenino";
+            }
+            else if (Genero == "M")
+            {
+                return "Masculino";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
         public string ObtenerCategoriaOcupacional()
         {
             if (Codigo_Categoria_Ocupacion == "1")

@@ -81,7 +81,18 @@
         </div>
 
         <div>
-            <p>Genero: <input type="text" @bind="@GeneroV" /></p>
+            @if (tiposGeneroView != null)
+            {
+                <p>
+                    Genero:
+                    <select @bind="@GeneroV">
+                        @foreach (var tipoGenero in tiposGeneroView)
+                        {
+                            <option value="@tipoGenero.Codigo">@tipoGenero.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
@@ -360,6 +371,8 @@
     private string MensajeV { get; set; }
     //AtributosTiposTrabajadores
     private List<TipoTrabajador> tiposTrabajadoresView { get; set; }
+    //AtributosTipoGenero
+    private List<Genero> tiposGeneroView { get; set; }
 
     private static readonly HttpClient client = HttpClientSingleton.GetInstance();
 
@@ -381,6 +394,34 @@
 
                     var tiposTrabajadores = JsonConvert.DeserializeObject<List<TipoTrabajador>>(ApiResponse);
                     tiposTrabajadoresView = tiposTrabajadores;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/Genero";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposGenero = JsonConvert.DeserializeObject<List<Genero>>(ApiResponse);
+                    tiposGeneroView = tiposGenero;
 
                 }
                 else
@@ -419,6 +460,7 @@
                     trabajadoresVar.FormaCalculo13ro = trabajadoresVar.ObtenerCalculoDecimo13();
                     trabajadoresVar.FormaCalculo14ro = trabajadoresVar.ObtenerCalculoDecimo14();
                     trabajadoresVar.Tipo_trabajador = trabajadoresVar.ObtenerTipoTrabajador();
+                    trabajadoresVar.Genero = trabajadoresVar.ObtenerTipoGenero();
                 }
                 TrabajadoresView = trabajadores;
 

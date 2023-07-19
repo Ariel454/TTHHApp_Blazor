@@ -10,6 +10,12 @@
 
 <h3>Trabajadores</h3>
 
+@if (!string.IsNullOrEmpty(ApiResponse))
+{
+    <p>@ApiResponse</p>
+    <p>@Exito</p>
+}
+
 <div style="display: grid; grid-template-columns: 1fr 1fr;">
     <div style="padding: 10px;">
         <!-- Campos de entrada y botones -->
@@ -24,7 +30,18 @@
         </div>
 
         <div>
-            <p>Tipo de trabajador: <input type="text" @bind="@TipodetrabajadorV" /></p>
+            @if (tiposTrabajadoresView != null)
+            {
+                <p>
+                    Tipo de trabajador:
+                    <select @bind="@TipodetrabajadorV">
+                        @foreach (var tipoTrabajador in tiposTrabajadoresView)
+                        {
+                            <option value="@tipoTrabajador.Descripcion">@tipoTrabajador.Codigo</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
@@ -182,7 +199,7 @@
         <!-- Tabla con la información -->
         <h4>Información de los trabajadores</h4>
 
-        @if (!string.IsNullOrEmpty(ApiResponse))
+        @if (TrabajadoresView != null)
         {
             <table class="table">
                 <thead>
@@ -318,7 +335,7 @@
     private string GeneroV { get; set; }
     private string NroCuentaBancariaV { get; set; }
     private string CodigoCategoriaOcupacionalV { get; set; }
-    private string OcupacionV { get; set; } 
+    private string OcupacionV { get; set; }
     private string CentroCostosV { get; set; }
     private string NivelSalarialV { get; set; }
     private string EstadoTrabajadorV { get; set; }
@@ -341,10 +358,44 @@
     private int RemuneracionMinimaV { get; set; }
     private string FondoReservaV { get; set; }
     private string MensajeV { get; set; }
+    //AtributosTiposTrabajadores
+    private List<TipoTrabajador> tiposTrabajadoresView { get; set; }
 
     private static readonly HttpClient client = HttpClientSingleton.GetInstance();
 
 
+    protected override async Task OnInitializedAsync()
+    {
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TipoTrabajador";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposTrabajadores = JsonConvert.DeserializeObject<List<TipoTrabajador>>(ApiResponse);
+                    tiposTrabajadoresView = tiposTrabajadores;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+    }
 
     private async void Mostrar()
     {
@@ -353,29 +404,30 @@
         try
         {
 
-                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorSelect?sucursal="+codSucursal;
-                var response = await client.GetAsync(url);
+            var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorSelect?sucursal=" + codSucursal;
+            var response = await client.GetAsync(url);
 
-                if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
+            {
+                Exito = "Exitoso";
+                ApiResponse = await response.Content.ReadAsStringAsync();
+
+                var trabajadores = JsonConvert.DeserializeObject<List<TrabajadorProxy>>(ApiResponse);
+                foreach (var trabajadoresVar in trabajadores)
                 {
-                    Exito = "Exitoso";
-                    ApiResponse = await response.Content.ReadAsStringAsync();
-
-                    var trabajadores = JsonConvert.DeserializeObject<List<TrabajadorProxy>>(ApiResponse);
-                    foreach (var trabajadoresVar in trabajadores)
-                    {
-                        trabajadoresVar.Codigo_Categoria_Ocupacion = trabajadoresVar.ObtenerCategoriaOcupacional();
-                        trabajadoresVar.FormaCalculo13ro = trabajadoresVar.ObtenerCalculoDecimo13();
-                        trabajadoresVar.FormaCalculo14ro = trabajadoresVar.ObtenerCalculoDecimo14();
-                    }
-                    TrabajadoresView = trabajadores;
-
+                    trabajadoresVar.Codigo_Categoria_Ocupacion = trabajadoresVar.ObtenerCategoriaOcupacional();
+                    trabajadoresVar.FormaCalculo13ro = trabajadoresVar.ObtenerCalculoDecimo13();
+                    trabajadoresVar.FormaCalculo14ro = trabajadoresVar.ObtenerCalculoDecimo14();
+                    trabajadoresVar.Tipo_trabajador = trabajadoresVar.ObtenerTipoTrabajador();
                 }
-                else
-                {
-                    ErrorMessage = "Error en la solicitud";
-                }
-            
+                TrabajadoresView = trabajadores;
+
+            }
+            else
+            {
+                ErrorMessage = "Error en la solicitud";
+            }
+
         }
         catch (HttpRequestException ex)
         {
@@ -459,7 +511,7 @@
     }
 
 
-   private async void Actualizar()
+    private async void Actualizar()
     {
         try
         {
@@ -540,7 +592,7 @@
             using (var client = new HttpClient())
             {
 
-                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorDelete?sucursal="+codSucursal+"&codigoempleado="+IDTrabajadorV;
+                var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TrabajadorDelete?sucursal=" + codSucursal + "&codigoempleado=" + IDTrabajadorV;
                 var response = await client.GetAsync(url);
 
 

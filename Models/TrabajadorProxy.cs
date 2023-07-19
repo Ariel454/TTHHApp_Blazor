@@ -80,6 +80,32 @@ namespace TTHHApp_Blazor.Models
             return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
         }
 
+        public string ObtenerTipoTrabajador()
+        {
+            if (Tipo_trabajador == "1")
+            {
+                return "Administrativo";
+            }
+            else if (Tipo_trabajador == "2")
+            {
+                return "Comisionista";
+            }
+            else if (Tipo_trabajador == "3")
+            {
+                return "Comisionista Mixto";
+            }
+            else if (Tipo_trabajador == "4")
+            {
+                return "Docente";
+            }
+            else if (Tipo_trabajador == "5")
+            {
+                return "Servicios";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
         public string ObtenerCategoriaOcupacional()
         {
             if (Codigo_Categoria_Ocupacion == "1")

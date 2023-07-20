@@ -84,7 +84,7 @@
             @if (tiposGeneroView != null)
             {
                 <p>
-                    Genero:
+                    Género:
                     <select @bind="@GeneroV">
                         @foreach (var tipoGenero in tiposGeneroView)
                         {
@@ -104,23 +104,80 @@
         </div>
 
         <div>
-            <p>Ocupación: <input type="text" @bind="@OcupacionV" /></p>
+            @if (tiposOcupacionView != null)
+            {
+                <p>
+                    Ocupación:
+                    <select @bind="@OcupacionV">
+                        @foreach (var tipoOcupacion in tiposOcupacionView)
+                        {
+                            <option value="@tipoOcupacion.Codigo">@tipoOcupacion.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
-            <p>Centro Costos: <input type="text" @bind="@CentroCostosV" /></p>
+            @if (tiposCentroCostosView != null)
+            {
+                <p>
+                    Centro Costos:
+                    <select @bind="@CentroCostosV">
+                        @foreach (var tipoCentroCostos in tiposCentroCostosView)
+                        {
+                            <option value="@tipoCentroCostos.Codigo">@tipoCentroCostos.NombreCentroCostos</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
-            <p>Nivel Salarial: <input type="text" @bind="@NivelSalarialV" /></p>
+            @if (tiposNivelSalarialView != null)
+            {
+                <p>
+                    Nivel Salarial:
+                    <select @bind="@NivelSalarialV">
+                        @foreach (var tipoNivelSalarial in tiposNivelSalarialView)
+                        {
+                            <option value="@tipoNivelSalarial.Codigo">@tipoNivelSalarial.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
-        <div>
-            <p>Estado Trabajador: <input type="text" @bind="@EstadoTrabajadorV" /></p>
-        </div>
 
         <div>
-            <p>Tipo de Contrato: <input type="text" @bind="@TipoContratoV" /></p>
+            @if (tiposEstadoTrabajadorView != null)
+            {
+                <p>
+                    Estado Trabajador:
+                    <select @bind="@EstadoTrabajadorV">
+                        @foreach (var tipoEstadoTrabajador in tiposEstadoTrabajadorView)
+                        {
+                            <option value="@tipoEstadoTrabajador.Codigo">@tipoEstadoTrabajador.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
+        </div>
+
+
+        <div>
+            @if (tiposContratoView != null)
+            {
+                <p>
+                    Tipo de contrato:
+                    <select @bind="@TipoContratoV">
+                        @foreach (var tipoContrato in tiposContratoView)
+                        {
+                            <option value="@tipoContrato.Codigo">@tipoContrato.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
@@ -373,6 +430,15 @@
     private List<TipoTrabajador> tiposTrabajadoresView { get; set; }
     //AtributosTipoGenero
     private List<Genero> tiposGeneroView { get; set; }
+    //AtributosTipoOcupacion
+    private List<Ocupacion> tiposOcupacionView { get; set; }
+    //AtributosCentroCostos
+    private List<CentroCosto> tiposCentroCostosView { get; set;}
+    //AtributosNivelSalarial
+    private List<NivelSalarial> tiposNivelSalarialView { get; set; }
+    //AtributosEstadoTrabajador
+    private List<EstadoTrabajador> tiposEstadoTrabajadorView { get; set; }
+    private List<Contrato> tiposContratoView { get; set; }
 
     private static readonly HttpClient client = HttpClientSingleton.GetInstance();
 
@@ -436,6 +502,147 @@
             Console.WriteLine(ex.ToString());
         }
 
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/Ocupaciones";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposOcupacion = JsonConvert.DeserializeObject<List<Ocupacion>>(ApiResponse);
+                    tiposOcupacionView = tiposOcupacion;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/CentroCostosSelect";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposCentroCostos = JsonConvert.DeserializeObject<List<CentroCosto>>(ApiResponse);
+                    tiposCentroCostosView = tiposCentroCostos;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/NivelSalarial";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposNivelSalarial = JsonConvert.DeserializeObject<List<NivelSalarial>>(ApiResponse);
+                    tiposNivelSalarialView = tiposNivelSalarial;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/EstadoTrabajador";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposEstadoTrabajador = JsonConvert.DeserializeObject<List<EstadoTrabajador>>(ApiResponse);
+                    tiposEstadoTrabajadorView = tiposEstadoTrabajador;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TipoContrato";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposContrato = JsonConvert.DeserializeObject<List<Contrato>>(ApiResponse);
+                    tiposContratoView = tiposContrato;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+
     }
 
     private async void Mostrar()
@@ -461,6 +668,12 @@
                     trabajadoresVar.FormaCalculo14ro = trabajadoresVar.ObtenerCalculoDecimo14();
                     trabajadoresVar.Tipo_trabajador = trabajadoresVar.ObtenerTipoTrabajador();
                     trabajadoresVar.Genero = trabajadoresVar.ObtenerTipoGenero();
+                    trabajadoresVar.Ocupacion = trabajadoresVar.ObtenerTipoOcupacion();
+                    trabajadoresVar.Centro_Costos = trabajadoresVar.ObtenerTipoCentroCostos();
+                    trabajadoresVar.Nivel_Salarial = trabajadoresVar.ObtenerTipoNivelSalarial();
+                    trabajadoresVar.EstadoTrabajador = trabajadoresVar.ObtenerTipoEstadoTrabajador();
+                    trabajadoresVar.Tipo_Contrato = trabajadoresVar.ObtenerTipoContrato();
+
                 }
                 TrabajadoresView = trabajadores;
 

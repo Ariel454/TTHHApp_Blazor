@@ -120,6 +120,117 @@ namespace TTHHApp_Blazor.Models
             return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
         }
 
+        public string ObtenerTipoOcupacion()
+        {
+            if (Ocupacion == "1")
+            {
+                return "Administrativo";
+            }
+            else if (Ocupacion == "2")
+            {
+                return "Operaciones";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+        public string ObtenerTipoCentroCostos()
+        {
+            if (Centro_Costos == "0")
+            {
+                return "Centro0";
+            }
+            else if (Centro_Costos == "1")
+            {
+                return "Centro";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+        public string ObtenerTipoNivelSalarial()
+        {
+            if (Nivel_Salarial == "1")
+            {
+                return "ALTO";
+            }
+            else if (Nivel_Salarial == "2")
+            {
+                return "MEDIO";
+            }
+            else if (Nivel_Salarial == "3")
+            {
+                return "BAJO";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+        public string ObtenerTipoEstadoTrabajador()
+        {
+            if (EstadoTrabajador == "*")
+            {
+                return "Cesado";
+            }
+            else if (EstadoTrabajador == "V")
+            {
+                return "Vacaciones";
+            }
+            else if (EstadoTrabajador == "A")
+            {
+                return "Activo";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+        public string ObtenerTipoContrato()
+        {
+            if (Tipo_Contrato == "1")
+            {
+                return "Indefinido";
+            }
+            else if (Tipo_Contrato == "2")
+            {
+                return "Obra_Cierta";
+            }
+            else if (Tipo_Contrato == "3")
+            {
+                return "Jornada_Parcial_Permanente";
+            }
+            else if (Tipo_Contrato == "4")
+            {
+                return "Evento_Continuo";
+            }
+            else if (Tipo_Contrato == "5")
+            {
+                return "Evento_Discontinuo";
+            }
+            else if (Tipo_Contrato == "6")
+            {
+                return "De_Temporada";
+            }
+            else if (Codigo_Categoria_Ocupacion == "7")
+            {
+                return "De_Aprendizaje";
+            }
+            else if (Codigo_Categoria_Ocupacion == "8")
+            {
+                return "De_Destajo";
+            }
+            else if (Codigo_Categoria_Ocupacion == "9")
+            {
+                return "Entre_Artesanos_Operarios";
+            }
+            else if (Codigo_Categoria_Ocupacion == "10")
+            {
+                return "Servicios_Domésticos";
+            }
+
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
         public string ObtenerCategoriaOcupacional()
         {
             if (Codigo_Categoria_Ocupacion == "1")

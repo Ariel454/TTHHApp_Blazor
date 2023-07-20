@@ -34,7 +34,7 @@ namespace TTHHApp_Blazor.Models
         public DateTime FechaNacimiento { get; set; }
         public DateTime FechaIngreso { get; set; }
         public DateTime FechaCese { get; set; }
-        public int PeriododeVacaciones { get; set; }
+        public string PeriododeVacaciones { get; set; }
         public DateTime FechaReingreso { get; set; }
         public DateTime Fecha_Ult_Actualizacion { get; set; }
         public string EsReingreso { get; set; }
@@ -105,6 +105,25 @@ namespace TTHHApp_Blazor.Models
 
             return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
         }
+
+        public string ObtenerTipoCese()
+        {
+            if (Tipo_Cese == "1")
+            {
+                return "Renuncia_Voluntaria";
+            }
+            else if (Tipo_Cese == "2")
+            {
+                return "Reduccion_Personal";
+            }
+            else if (Tipo_Cese == "3")
+            {
+                return "Renuncia_Exigida";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
 
         public string ObtenerTipoGenero()
         {
@@ -285,6 +304,133 @@ namespace TTHHApp_Blazor.Models
             return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
         }
 
+        public string ObtenerTipoEstadoCivil()
+        {
+            if (EstadoCivil == "1")
+            {
+                return "Soltero";
+            }
+            else if (EstadoCivil == "2")
+            {
+                return "Casado";
+            }
+            else if (EstadoCivil == "3")
+            {
+                return "Divorciado";
+            }
+            else if (EstadoCivil == "4")
+            {
+                return "Viudo";
+            }
+            else if (EstadoCivil == "5")
+            {
+                return "Unión_Libre";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+        public string ObtenerTipoComision()
+        {
+            if (TipodeComision == "H")
+            {
+                return "Chofer";
+            }
+            else if (TipodeComision == "N")
+            {
+                return "Vendedor";
+            }
+            else if (TipodeComision == "O")
+            {
+                return "Cobrador";
+            }
+            else if (TipodeComision == "C")
+            {
+                return "Cajero";
+            }
+            else if (TipodeComision == "J")
+            {
+                return "Jefe Tienda";
+            }
+            else if (TipodeComision == "")
+            {
+                return "Otros";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+        public string ObtenerTipoVacaciones()
+        {
+            if (PeriododeVacaciones == "1")
+            {
+                return "5 días";
+            }
+            else if (PeriododeVacaciones == "2")
+            {
+                return "15 días";
+            }
+            else if (PeriododeVacaciones == "3")
+            {
+                return "30 días";
+            }
+            else if (PeriododeVacaciones == "4")
+            {
+                return "45 días";
+            }
+            else if (PeriododeVacaciones == "5")
+            {
+                return "60 días";
+            }
+            else if (PeriododeVacaciones == "6")
+            {
+                return "Indefinido";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+        public string ObtenerTipoReingreso()
+        {
+            if (EsReingreso == "1")
+            {
+                return "Si";
+            }
+            else if (EsReingreso == "0")
+            {
+                return "No";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+        public string ObtenerTipoCuenta()
+        {
+            if (Tipo_Cuenta == "1")
+            {
+                return "Ahorros";
+            }
+            else if (Tipo_Cuenta == "2")
+            {
+                return "Corriente";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
+
+        public string ObtenerTipoFondoReserva()
+        {
+            if (Fondo_Reserva == "M")
+            {
+                return "Mensual";
+            }
+            else if (Fondo_Reserva == "A")
+            {
+                return "Acumulada";
+            }
+
+            return string.Empty; // O retorna un valor por defecto si no se cumple ninguna condición
+        }
 
     }
 }

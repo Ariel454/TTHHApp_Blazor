@@ -181,15 +181,48 @@
         </div>
 
         <div>
-            <p>Tipo de Cese: <input type="text" @bind="@TipoCeseV" /></p>
+            @if (tiposCeseView != null)
+            {
+                <p>
+                    Tipo de cese:
+                    <select @bind="@TipoCeseV">
+                        @foreach (var tipoCese in tiposCeseView)
+                        {
+                            <option value="@tipoCese.Codigo">@tipoCese.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
-            <p>Estado Civil: <input type="text" @bind="@EstadoCivilV" /></p>
+            @if (tiposEstadoCivilView != null)
+            {
+                <p>
+                    Estado Civil:
+                    <select @bind="@EstadoCivilV">
+                        @foreach (var tipoEstadoCivil in tiposEstadoCivilView)
+                        {
+                            <option value="@tipoEstadoCivil.Codigo">@tipoEstadoCivil.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
-            <p>Tipo de comisión: <input type="text" @bind="@TipodeComisionV" /></p>
+            @if (tiposEstadoCivilView != null)
+            {
+                <p>
+                    Tipo de comisión:
+                    <select @bind="@TipodeComisionV">
+                        @foreach (var tipoComision in tiposComisionView)
+                        {
+                            <option value="@tipoComision.Descripcion">@tipoComision.Codigo</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
@@ -205,7 +238,18 @@
         </div>
 
         <div>
-            <p>Periodo de Vacaciones: <input type="text" @bind="@PeriododeVacacionesV" /></p>
+            @if (tiposEstadoCivilView != null)
+            {
+                <p>
+                    Periodo de vacaciones:
+                    <select @bind="@PeriododeVacacionesV">
+                        @foreach (var tipoVacaciones in tiposVacacionesView)
+                        {
+                            <option value="@tipoVacaciones.Codigo">@tipoVacaciones.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
@@ -217,11 +261,33 @@
         </div>
 
         <div>
-            <p>Reingreso: <input type="text" @bind="@EsReingresoV" /></p>
+            @if (tiposReingresoView != null)
+            {
+                <p>
+                    Reingreso:
+                    <select @bind="@EsReingresoV">
+                        @foreach (var tipoReingreso in tiposReingresoView)
+                        {
+                            <option value="@tipoReingreso.Codigo">@tipoReingreso.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
-            <p>Tipo de Cuenta: <input type="text" @bind="@TipodeCuentaV" /></p>
+            @if (tiposCuentaView != null)
+            {
+                <p>
+                    Tipo de Cuenta:
+                    <select @bind="@TipodeCuentaV">
+                        @foreach (var tipoCuenta in tiposCuentaView)
+                        {
+                            <option value="@tipoCuenta.Codigo">@tipoCuenta.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <div>
@@ -245,7 +311,18 @@
         </div>
 
         <div>
-            <p>Fondo de Reserva: <input type="text" @bind="@FondoReservaV" /></p>
+            @if (tiposFondoReservaView != null)
+            {
+                <p>
+                    Fondo de reserva:
+                    <select @bind="@FondoReservaV">
+                        @foreach (var tipoFondoReserva in tiposFondoReservaView)
+                        {
+                            <option value="@tipoFondoReserva.Codigo">@tipoFondoReserva.Descripcion</option>
+                        }
+                    </select>
+                </p>
+            }
         </div>
 
         <button class="btn btn-primary" @onclick="Mostrar">Mostrar Trabajadores</button>
@@ -414,7 +491,7 @@
     private string FechadeNacimientoV { get; set; }
     private string FechadeIngresoV { get; set; }
     private string FechaCeseV { get; set; }
-    private int PeriododeVacacionesV { get; set; }
+    private string PeriododeVacacionesV { get; set; }
     private string FechaReingresoV { get; set; }
     private string FechaUltimaActualizaciónV { get; set; }
     private string EsReingresoV { get; set; }
@@ -438,7 +515,22 @@
     private List<NivelSalarial> tiposNivelSalarialView { get; set; }
     //AtributosEstadoTrabajador
     private List<EstadoTrabajador> tiposEstadoTrabajadorView { get; set; }
+
     private List<Contrato> tiposContratoView { get; set; }
+
+    private List<Cese> tiposCeseView { get; set; }
+
+    private List<EstadoCivil> tiposEstadoCivilView { get; set; }
+
+    private List<Comision> tiposComisionView { get; set; }
+
+    private List<Vacaciones> tiposVacacionesView { get; set; }
+
+    private List<Reingreso> tiposReingresoView { get; set; }
+
+    private List<Cuenta> tiposCuentaView { get; set; }
+
+    private List<FondoReserva> tiposFondoReservaView { get; set;  }
 
     private static readonly HttpClient client = HttpClientSingleton.GetInstance();
 
@@ -642,6 +734,201 @@
             Console.WriteLine(ex.ToString());
         }
 
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TipoCese";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposCese = JsonConvert.DeserializeObject<List<Cese>>(ApiResponse);
+                    tiposCeseView = tiposCese;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/EstadoCivil";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposEstadoCivil = JsonConvert.DeserializeObject<List<EstadoCivil>>(ApiResponse);
+                    tiposEstadoCivilView = tiposEstadoCivil;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TipoComision";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposComision = JsonConvert.DeserializeObject<List<Comision>>(ApiResponse);
+                    tiposComisionView = tiposComision;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/PeriodoVacaciones";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposVacaciones = JsonConvert.DeserializeObject<List<Vacaciones>>(ApiResponse);
+                    tiposVacacionesView = tiposVacaciones;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/EsReingreso";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposReingreso = JsonConvert.DeserializeObject<List<Reingreso>>(ApiResponse);
+                    tiposReingresoView = tiposReingreso;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/TipoCuenta";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposCuenta = JsonConvert.DeserializeObject<List<Cuenta>>(ApiResponse);
+                    tiposCuentaView = tiposCuenta;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/FondoReserva";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposFondoReserva = JsonConvert.DeserializeObject<List<FondoReserva>>(ApiResponse);
+                    tiposFondoReservaView = tiposFondoReserva;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
 
     }
 
@@ -673,6 +960,13 @@
                     trabajadoresVar.Nivel_Salarial = trabajadoresVar.ObtenerTipoNivelSalarial();
                     trabajadoresVar.EstadoTrabajador = trabajadoresVar.ObtenerTipoEstadoTrabajador();
                     trabajadoresVar.Tipo_Contrato = trabajadoresVar.ObtenerTipoContrato();
+                    trabajadoresVar.Tipo_Cese = trabajadoresVar.ObtenerTipoCese();
+                    trabajadoresVar.EstadoCivil = trabajadoresVar.ObtenerTipoEstadoCivil();
+                    trabajadoresVar.TipodeComision = trabajadoresVar.ObtenerTipoComision();
+                    trabajadoresVar.PeriododeVacaciones = trabajadoresVar.ObtenerTipoVacaciones();
+                    trabajadoresVar.EsReingreso = trabajadoresVar.ObtenerTipoReingreso();
+                    trabajadoresVar.Tipo_Cuenta = trabajadoresVar.ObtenerTipoCuenta();
+                    trabajadoresVar.Fondo_Reserva = trabajadoresVar.ObtenerTipoFondoReserva();
 
                 }
                 TrabajadoresView = trabajadores;
@@ -726,7 +1020,7 @@
                 { "FechaNacimiento", FechadeNacimientoV },
                 { "FechaIngreso", FechadeIngresoV },
                 { "FechaCese", FechaCeseV },
-                { "PeriododeVacaciones", PeriododeVacacionesV.ToString() },
+                { "PeriododeVacaciones", PeriododeVacacionesV },
                 { "FechaReingreso", FechaReingresoV },
                 { "Fecha_Ult_Actualizacion", FechaUltimaActualizaciónV },
                 { "EsReingreso", EsReingresoV },
@@ -802,7 +1096,7 @@
                 { "FechaNacimiento", FechadeNacimientoV },
                 { "FechaIngreso", FechadeIngresoV },
                 { "FechaCese", FechaCeseV },
-                { "PeriododeVacaciones", PeriododeVacacionesV.ToString() },
+                { "PeriododeVacaciones", PeriododeVacacionesV },
                 { "FechaReingreso", FechaReingresoV },
                 { "Fecha_Ult_Actualizacion", FechaUltimaActualizaciónV },
                 { "EsReingreso", EsReingresoV },

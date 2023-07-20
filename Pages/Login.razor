@@ -15,12 +15,6 @@
     <p>@Exito</p>
 }
 
-@if (!string.IsNullOrEmpty(ApiResponse))
-{
-        <p>Respuesta de la API: @ApiResponse</p>
-}
-
-
 <div>
     <p>Usuario: <input type="text" @bind="@Username" /></p>
 </div>
@@ -28,6 +22,19 @@
 <div>
     <p>Contraseña: <input type="password" @bind="@Password" /></p>
 </div>
+
+@if (tiposCompaniaView != null)
+{
+    <p>
+        Selecciona la compañia:
+        <select @bind="@companiaV">
+            @foreach (var tipoCompania in tiposCompaniaView)
+            {
+                <option value="@tipoCompania.Codigo">@tipoCompania.NombreEmisor</option>
+            }
+        </select>
+    </p>
+}
 
 <button class="btn btn-primary" @onclick="IniciarSesion">Iniciar sesión</button>
 
@@ -63,8 +70,43 @@
     private string NOMBRECOMPANIA { get; set; }
     private string USUARIOCLIENTE { get; set; }
     private string RucUsuario { get; set; }
+    private string companiaV { get; set; }
+
+    private List<Compania> tiposCompaniaView { get; set; }
 
     private HttpClient HttpClient { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://apiservicios.ecuasolmovsa.com:3009/api/Varios/GetEmisor";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Exito = "Exitoso";
+                    ApiResponse = await response.Content.ReadAsStringAsync();
+
+                    var tiposCompania = JsonConvert.DeserializeObject<List<Compania>>(ApiResponse);
+                    tiposCompaniaView = tiposCompania;
+
+                }
+                else
+                {
+                    ErrorMessage = "Error en la solicitud";
+                }
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = "Se produjo un error en la solicitud: " + ex.Message;
+            Console.WriteLine(ex.ToString());
+        }
+    }
 
     private async void IniciarSesion()
     {

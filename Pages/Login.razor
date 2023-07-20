@@ -36,17 +36,23 @@
     </p>
 }
 
+
 <button class="btn btn-primary" @onclick="IniciarSesion">Iniciar sesión</button>
+<br />
 
 <!--Atributos del usuario-->
 @if (!string.IsNullOrEmpty(NOMBREUSUARIO))
 {
+    <p>Información del usuario: </p>
     <p>@NOMBREUSUARIO</p>
     <p>@PERFIL</p>
-    <p>@OBSERVACION</p>
-    <p>@CODIGOPERFIL</p>
     <p>@ESTADO</p>
-    <p>@PERFIL</p>
+    <p>Codigo de compañia: @COMPANIA</p>
+    <p>@NOMBREEMISOR</p>
+    <p>@NOMBRECOMPANIA</p>
+    <p>@USUARIOCLIENTE</p>
+    <p>@RucUsuario</p>
+
 }
 
 
@@ -112,6 +118,8 @@
     {
         try
         {
+
+
             using (var client = new HttpClient())
             {
                 var url = $"http://apiservicios.ecuasolmovsa.com:3009/api/Usuarios?usuario=" + Username + "&password=" + Password;
@@ -127,11 +135,30 @@
 
                     var usuarios = JsonConvert.DeserializeObject<List<Usuario>>(ApiResponse);
 
+
+
                     if (usuarios.Count > 0)
                     {
                         var usuario = usuarios[0];
-                        NOMBREUSUARIO = usuario.NOMBREUSUARIO;
                         // Resto del código para manejar el inicio de sesión exitoso
+                        if (usuario.COMPANIA == int.Parse(companiaV))
+                        {
+                            // Resto del código para manejar el inicio de sesión exitoso
+                            NOMBREUSUARIO = usuario.NOMBREUSUARIO;
+                            PERFIL = usuario.PERFIL;
+                            COMPANIA = usuario.COMPANIA;
+                            NOMBREEMISOR = usuario.NOMBREEMISOR;
+                            NOMBRECOMPANIA = usuario.NOMBRECOMPANIA;
+                            USUARIOCLIENTE = usuario.USUARIOCLIENTE;
+                            RucUsuario = usuario.RucUsuario;
+
+                            ErrorMessage = "IngresoExitoso";
+                        }
+                    else
+                    {
+                        ErrorMessage = "El usuario no tiene acceso a esta compañía.";
+                            NOMBREUSUARIO = null;
+                    }
                     }
                 }
 
